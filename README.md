@@ -13,6 +13,8 @@ convenient for math (`Math.pow(2, x)` instead of `2^x`, etc.).
 Documentation (incomplete, of course)
 -------------------------------------
 
+[中文版](README_CN.md)
+
 ### Quick start ###
 
 **Installation**
