@@ -254,6 +254,12 @@ var Parser = (function (scope) {
 					f = item.index_;
 					if (overload_2 && (f in this.overload_ops2)) {
 						comma_isclosed = true;
+						if((n1+"").indexOf(",") >= 0 && !/^\(.*\)$/.test(n1)){
+							n1 = "(" + n1 + ")";
+						}
+						if((n2+"").indexOf(",") >= 0 && !/^\(.*\)$/.test(n2)){
+							n2 = "(" + n2 + ")";
+						}
 						nstack.push(overload_2 + "['" + f + "'](" + n1 + "," + n2 + ")");
 					}else{
 						if(f !== ','){
@@ -269,10 +275,15 @@ var Parser = (function (scope) {
 						}else{
 							if(!comma_isclosed && comma_prio != null &&
 								item.prio_ != comma_prio){
-								nstack.push("(" + n1 + ")" + f + "(" + n2 + ")");
-							}else{
-								nstack.push(n1 + f + n2);
+								if((n1+"").indexOf(",") >= 0){
+									n1 = "(" + n1 + ")";
+								}
+								if((n2+"").indexOf(",") >= 0){
+									n2 = "(" + n2 + ")";
+								}
 							}
+
+							nstack.push(n1 + f + n2);
 							comma_isclosed = false;
 							comma_prio = item.prio_;
 						}
@@ -284,6 +295,13 @@ var Parser = (function (scope) {
 					if (this.ops1[f]) {
 						if(overload_1 && (f in this.overload_ops1)){
 							comma_isclosed = true;
+							var prev = this.tokens[i - 1];
+							if(prev.prio_ - item.prio_ > 10){
+								n1 = "(" + n1 + ")";
+							}
+							if(prev.index_ === ','){
+								n1 = "(" + n1 + ")";
+							}
 							nstack.push(overload_1 + "['" + f + "'](" + n1 + ")");
 						}else{
 							if(!comma_isclosed){
