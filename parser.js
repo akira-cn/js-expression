@@ -230,6 +230,22 @@ var Parser = (function (scope) {
 		},
 
 		toString: function (overload_1, overload_2) {
+			function isBracketMatch(str){
+				str = str+"";
+				if(str.charAt(0) !== '(') return false;
+				var m = 1;
+				for(var i = 1; i < str.length; i++){
+					var ch = str.charAt(i);
+					if(ch === '(') m++;
+					else if(ch === ')') m--;
+
+					if(!m){
+						return i === str.length - 1;
+					}
+				}
+				return false;
+			}
+
 			var nstack = [];
 			var n1;
 			var n2;
@@ -254,10 +270,10 @@ var Parser = (function (scope) {
 					f = item.index_;
 					if (overload_2 && (f in this.overload_ops2)) {
 						comma_isclosed = true;
-						if((n1+"").indexOf(",") >= 0 && !/^\(.*\)$/.test(n1)){
+						if((n1+"").indexOf(",") >= 0 && !isBracketMatch(n1)){
 							n1 = "(" + n1 + ")";
 						}
-						if((n2+"").indexOf(",") >= 0 && !/^\(.*\)$/.test(n2)){
+						if((n2+"").indexOf(",") >= 0 && !isBracketMatch(n2)){
 							n2 = "(" + n2 + ")";
 						}
 						nstack.push(overload_2 + "['" + f + "'](" + n1 + "," + n2 + ")");
@@ -265,7 +281,7 @@ var Parser = (function (scope) {
 						if(f !== ','){
 							if(!comma_isclosed){
 								comma_isclosed = true;
-								if(!/^\(.*\)$/.test(n1)){
+								if(!isBracketMatch(n1)){
 									n1 = "(" + n1 + ")";
 								}								
 								nstack.push("(" + n1 + f + "(" + n2 + "))");
@@ -327,7 +343,7 @@ var Parser = (function (scope) {
 					if(prev.index_ === ','){
 						n1 = "(" + n1 + ")";
 					}
-					if(!/^\(.*\)$/.test(n1)){
+					if(!isBracketMatch(n1)){
 						n1 = "(" + n1 + ")";
 					}
 					nstack.push(f + n1);
