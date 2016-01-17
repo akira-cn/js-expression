@@ -376,12 +376,17 @@ var Parser = (function (scope) {
 		toEvalFunction: function(){
 			var expr = this;
 			var vars = expr.variables(true);
+			var overload_str = 'overload_' + (Math.random() + '').slice(2);
+
+			vars = vars.concat(overload_str + '1', overload_str + '2');
+			var code = expr.js_expr_str.replace(/\$_EXPR_OPS_\$/g, overload_str);
+			var func = new Function(vars, "return " + code);
 
 			return function(values){
 				values = values || {};
 				var params = [];
 
-				for(var i = 0; i < vars.length; i++){
+				for(var i = 0; i < vars.length - 2; i++){
 					var v, key = vars[i];
 
 					if(key in values){
@@ -396,10 +401,7 @@ var Parser = (function (scope) {
 					params.push(v);
 				}
 
-				var overload_str = 'overload_' + (Math.random() + '').slice(2);
-				
-				var f = new Function(vars.concat(overload_str + '1', overload_str + '2'), "return " + expr.js_expr_str.replace(/\$_EXPR_OPS_\$/g, overload_str));
-				return f.apply(undefined, 
+				return func.apply(undefined, 
 					params.concat(expr.overload_ops1, expr.overload_ops2));
 			}
 		},
