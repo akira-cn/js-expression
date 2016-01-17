@@ -185,21 +185,6 @@ console.log(expr.evaluate({ //Vector { x: 9, y: -7 }
 }));
 ```
 
-另一个例子:
-
-```javascript
-var parser = new Parser();
-
-parser.overload('+', Array, function(a, b){
-  return a.concat(b);
-});
-
-var expr3 = parser.parse("(1,2,3) + (4,5,6)");
-
-//got [1,2,3,4,5,6]
-console.log(expr3.evaluate());
-```
-
 ## Parser.Expression 对象
 
 Parser.parse 方法返回一个 Expression 对象。
