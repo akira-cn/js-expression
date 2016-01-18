@@ -1,6 +1,10 @@
 # JavaScript 高级表达式运算解析器
 ===============================
 
+这个项目来源于 https://github.com/silentmatt/js-expression-eval
+
+我重写了 [js-expression-eval](https://github.com/silentmatt/js-expression-eval) 的底层，以获得非常高的性能和很好的扩展性。
+
 ## 支持以下特性：
 
 - 自定义运算符
