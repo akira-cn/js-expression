@@ -1,6 +1,10 @@
 JavaScript Expression Evaluator
 ===============================
 
+This project comes from https://github.com/silentmatt/js-expression-eval
+
+I rewrote the base evaluator of [js-expression-eval](https://github.com/silentmatt/js-expression-eval) to make it faster and scalable.
+
 Description
 -----------
 
